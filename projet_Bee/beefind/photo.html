@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BEEFIND</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bottom-nav">
+      <nav class="navbar">
+        <hr />
+        <div class="navigation">
+          <ul>
+            <li class="list">
+              <a href="home">
+                <div class="hexagon hexa-bordure">
+                  <span class="icon">
+                    <img src="./img/accueil.svg" alt="accueil" />
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li class="list">
+              <a href="user">
+                <div class="hexagon">
+                  <span class="icon">
+                    <img class="image" src="./img/user.svg" alt="user" />
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li class="list active">
+              <a href="photo">
+                <span class="icon special">
+                  <img src="./img/camera.svg" alt="camera" />
+                </span>
+              </a>
+            </li>
+            <li class="list">
+              <a href="donnees.html">
+                <div class="hexagon">
+                  <span class="icon">
+                    <img src="./img/book.svg" alt="book" />
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li class="list">
+              <a href="settings.html">
+                <div class="hexagon hexa-bordure">
+                  <span class="icon">
+                    <img src="./img/setting.svg" alt="settings" />
+                  </span>
+                </div>
+              </a>
+            </li>
+            <div class="indicator"></div>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <header>
+      <div class="header">
+        <span>
+          <img src="./img/logo-beefind.png" alt="logo-beefind" />
+        </span>
+        <h1>BEEFIND</h1>
+      </div>
+    </header>
+    <form action="/photo" method="post">
+      <section class="section-photo">
+        <div class="flex-photo">
+          <div class="photo">
+            <div id="my_camera" style="width: 300px; height: 225px"></div>
+            <div id="my_result"></div>
+            <script src="webcam.js"></script>
+          </div>
+          <a id="take_photo" href="javascript:void(take_snapshot())"
+            ><input type="button" value="Prendre une photo" id="btn"
+          /></a>
+        </div>
+      </section>
+
+      <section class="section-select">
+        <div class="select">
+          <select id="espece">
+            <option value="1">Abeille</option>
+            <option value="2">Frelon Européen</option>
+            <option value="3">Frelon Asiatique</option>
+            <option value="4">Guêpe</option>
+          </select>
+        </div>
+      </section>
+    </form>
+    <script language="JavaScript">
+      Webcam.attach("#my_camera");
+
+      function take_snapshot() {
+        Webcam.snap(function (data_uri) {
+          if (!!document.getElementById("image")) {
+            document.getElementById("my_result").innerHTML = ``;
+          } else {
+            document.getElementById("my_result").innerHTML = `
+                <img id="image" src="${data_uri}"/>
+                <input name="image" type="hidden" value="${data_uri}"/>  
+                  `;
+          }
+        });
+      }
+    </script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script type="module" src="camera.js"></script>
+  </body>
+</html>
