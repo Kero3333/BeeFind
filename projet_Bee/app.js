@@ -62,10 +62,6 @@ const newAccount = (email, password, username, res) => {
   });
 };
 
-app.post("/login", (req, res) => {
-  newAccount(db, req.body.mail, req.body.password, req.body.pseudo, res);
-});
-
 // Picture :
 const dispPicture = (idAccount) => {
   const db = openDatabase();
@@ -85,9 +81,10 @@ const dispPicture = (idAccount) => {
 const newPicture = (idAccount, date, image, localisation, espece) => {
   const db = openDatabase();
 
-  db.get(
+  db.run(
     `INSERT INTO Picture (id_account, date, image, localisation, espece) VALUES ("${idAccount}","${date}", "${image}", "${localisation}", "${espece}")`
   );
+  dispPicture(1);
   closeDatabase(db);
 };
 
@@ -155,8 +152,30 @@ const newAchievement = (database, achievement, condition) => {
   );
 };
 
+const dispUser = (idAccount) => {
+  const db = openDatabase();
+  db.get(
+    `SELECT username, image FROM Account WHERE id_account=${idAccount}`,
+    (err, row) => {
+      if (err) console.log(err.message);
+      const info = JSON.stringify(row);
+      setTimeout(() => {
+        fs.writeFile("public/account.json", info, function (err) {
+          if (err) return console.error(err.message);
+          console.log("Fichier créé !");
+        });
+      }, 1000);
+    }
+  );
+  closeDatabase(db);
+};
+
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "./beefind/home.html"));
+});
+
+app.post("/login", (req, res) => {
+  newAccount(db, req.body.mail, req.body.password, req.body.pseudo, res);
 });
 
 app.get("/photo", function (req, res) {
@@ -174,11 +193,11 @@ app.post("/photo", (req, res) => {
     localisation,
     req.body.espece
   );
-  dispPicture(1);
   res.sendFile(path.join(__dirname, "./beefind/photo.html"));
 });
 
 app.get("/home", function (req, res) {
+  dispUser(20);
   res.sendFile(path.join(__dirname, "beefind/home.html"));
 });
 
