@@ -7,7 +7,7 @@ const fs = require("fs");
 const app = express();
 const port = 3000;
 
-// openning database
+// opening database
 const openDatabase = () => {
   let db = new sqlite3.Database("data.db", (err) => {
     if (err) {
@@ -18,6 +18,7 @@ const openDatabase = () => {
   return db;
 };
 
+// closing database
 const closeDatabase = (db) => {
   db.close((err) => {
     if (err) {
@@ -34,6 +35,7 @@ app.use(express.static(__dirname + "/public/"));
 app.use(express.static(__dirname + "/beefind/"));
 app.use(express.static(__dirname + "/webcamjs/"));
 
+// add a new account
 const newAccount = (email, password, username, res) => {
   const db = openDatabase();
 
@@ -62,7 +64,7 @@ const newAccount = (email, password, username, res) => {
   });
 };
 
-// Picture :
+// recovers pictures
 const dispPicture = (idAccount) => {
   const db = openDatabase();
   db.all(`SELECT * FROM Picture WHERE id_account=${idAccount}`, (err, data) => {
@@ -78,6 +80,7 @@ const dispPicture = (idAccount) => {
   closeDatabase(db);
 };
 
+// add picture
 const newPicture = (idAccount, date, image, localisation, espece) => {
   const db = openDatabase();
 
@@ -131,16 +134,12 @@ const newSpecie = () => {
 
 // Level
 
-const newLevel = (database, achievement, level, xp, idAccount) => {
+const newLevel = (idAccount, achievement, level, xp) => {
+  const db = openDatabase();
   database.run(
     `INSERT INTO Level (id_account, achievement, level, xp) VALUES ("${idAccount}","${achievement}", "${level}", "${xp}")`
   );
-
-  database.all("SELECT * FROM Level", (err, data) => {
-    if (err) console.log(err.message);
-
-    return console.log(data);
-  });
+  closeDatabase(db);
 };
 
 // Achievement
@@ -169,6 +168,7 @@ const dispUser = (idAccount) => {
   closeDatabase(db);
 };
 
+// management of requests
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "./beefind/home.html"));
 });
@@ -205,6 +205,7 @@ app.get("/user", function (req, res) {
   res.sendFile(path.join(__dirname, "beefind/user.html"));
 });
 
+// initialize the server
 app.listen(port, () => {
   console.log(`Application exemple à l'écoute sur le port ${port}!`);
 });

@@ -1,7 +1,9 @@
 const btn = document.getElementById("btn");
 console.log(document.getElementById("espece").options[0].textContent);
 
+// btn "take a picture"
 btn.addEventListener("click", () => {
+  // if camera is visible
   if (document.querySelector("#my_camera").style.visibility !== "hidden") {
     const cam = document.querySelector("#my_camera");
     cam.style.visibility = "hidden";
@@ -21,6 +23,7 @@ btn.addEventListener("click", () => {
         .querySelector("form")
         .removeChild(document.querySelector("#date"));
     }
+    // if camera is hidden
   } else {
     const cam = document.querySelector("#my_camera");
     cam.style.visibility = "visible";
@@ -44,7 +47,7 @@ btn.addEventListener("click", () => {
     }
     return;
   }
-
+  // if the btn "save" exist
   if (!!document.querySelector("#save")) {
     document
       .querySelector("#my_result")
@@ -57,7 +60,7 @@ btn.addEventListener("click", () => {
       .removeChild(document.querySelector("#specie"));
     document.querySelector("form").removeChild(document.querySelector("#date"));
   }
-
+  // take the geolocation
   window.navigator.geolocation.getCurrentPosition((position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
@@ -73,7 +76,7 @@ btn.addEventListener("click", () => {
     
     `;
   });
-
+  // create the btn "save"
   const p = document
     .querySelector("#take_photo")
     .appendChild(document.createElement("p"));
@@ -82,7 +85,7 @@ btn.addEventListener("click", () => {
   <br>
   <input type="submit" value="Enregistrer" />
   `;
-
+  //take the specie
   const espece = document.getElementById("espece").options;
   for (let i = 0; i < 3; i++) {
     if (espece[i].selected === true) {
@@ -95,6 +98,7 @@ btn.addEventListener("click", () => {
       `;
     }
   }
+  // take the date
   const date = new Date();
   const pDate = document
     .querySelector("form")
