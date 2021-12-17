@@ -84,7 +84,6 @@ const newPicture = (idAccount, date, image, localisation, espece) => {
   db.run(
     `INSERT INTO Picture (id_account, date, image, localisation, espece) VALUES ("${idAccount}","${date}", "${image}", "${localisation}", "${espece}")`
   );
-  dispPicture(1);
   closeDatabase(db);
 };
 
@@ -197,11 +196,12 @@ app.post("/photo", (req, res) => {
 });
 
 app.get("/home", function (req, res) {
-  dispUser(20);
   res.sendFile(path.join(__dirname, "beefind/home.html"));
 });
 
 app.get("/user", function (req, res) {
+  dispUser(20);
+  dispPicture(1);
   res.sendFile(path.join(__dirname, "beefind/user.html"));
 });
 
