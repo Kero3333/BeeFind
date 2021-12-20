@@ -20,3 +20,4 @@ de manière ludique en proposant à travers l'application la capture de ceux-ci 
 ## Sources
 
 - [Google map api](https://developers.google.com/maps)
+- [WebcamJS](https://github.com/jhuckaby/webcamjs)
